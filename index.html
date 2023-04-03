@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style type="text/css">
+        #divLoadCont{position:fixed; z-index:500; left:0; top:0; width:100%; height:100%; overflow: hidden;clip:rect(0,100%,100%,0); background-color:#fbfbfb; layer-background-color:#fbfbfb; }
+        #divLoad1{position:absolute; layer-background-color:#fbfbfb; background-color:#fbfbfb}
+        #divLoad2{text-align:center;position:absolute; left:0; top:0; layer-background-color:navy; background-color:navy}
+        #divLoadText{text-align:center;background-color:#fbfbfb; font-family:arial,helvetica; color:Navy; font-size:20px; }
+
+    </style>
+    <script language="JavaScript" type="text/javascript">
+        function lib_bwcheck(){ //Browsercheck (needed)
+            this.ver=navigator.appVersion
+            this.agent=navigator.userAgent
+            this.dom=document.getElementById?1:0
+            this.opera5=this.agent.indexOf("Opera 5")>-1
+            this.ie5=(this.ver.indexOf("MSIE 5")>-1 && this.dom && !this.opera5)?1:0;
+            this.ie6=(this.ver.indexOf("MSIE 6")>-1 && this.dom && !this.opera5)?1:0;
+            this.ie4=(document.all && !this.dom && !this.opera5)?1:0;
+            this.ie=this.ie4||this.ie5||this.ie6
+            this.mac=this.agent.indexOf("Mac")>-1
+            this.ns6=(this.dom && parseInt(this.ver) >= 5) ?1:0;
+            this.ns4=(document.layers && !this.dom)?1:0;
+            this.bw=(this.ie6 || this.ie5 || this.ie4 || this.ns4 || this.ns6 || this.opera5)
+            return this
+        }
+        var bw=new lib_bwcheck()
+        numImages=10 //How many images you have in your page
+        loaderWidth=300 //The width of the loadbar
+
+        currentImg=0
+        function lib_doc_size(){
+            this.x=0;this.x2=bw.ie && document.body.offsetWidth-20||innerWidth||0;
+            this.y=0;this.y2=bw.ie && document.body.offsetHeight-5||innerHeight||0;
+            if(!this.x2||!this.y2) return message('Document has no width or height')
+            this.x50=this.x2/2;this.y50=this.y2/2;
+            return this;
+        }
+        function lib_obj(obj,nest){
+            nest=(!nest) ? "":'document.'+nest+'.'
+            this.evnt=bw.dom? document.getElementById(obj):bw.ie4?document.all[obj]:bw.ns4?eval(nest+"document.layers." +obj):0;
+            this.css=bw.dom||bw.ie4?this.evnt.style:this.evnt;
+            this.ref=this.css
+            this.w=this.evnt.offsetWidth||this.css.clip.width||
+                this.ref.width||this.css.pixelWidth||0;
+            return this
+        }
+        lib_obj.prototype.moveIt = function(x,y){
+            this.x=x;this.y=y; this.css.left=x;this.css.top=y
+        }
+        lib_obj.prototype.clipTo = function(t,r,b,l,setwidth){
+            this.ct=t; this.cr=r; this.cb=b; this.cl=l
+            if(bw.ns4){
+                this.css.clip.top=t;this.css.clip.right=r
+                this.css.clip.bottom=b;this.css.clip.left=l
+            }else{
+                if(t<0)t=0;if(r<0)r=0;if(b<0)b=0;if(b<0)b=0
+                this.css.clip="rect("+t+","+r+","+b+","+l+")";
+                if(setwidth){this.css.pixelWidth=this.css.width=r;
+                    this.css.pixelHeight=this.css.height=b}
+            }
+        }
+        var oLoad2
+        function startLoading(){
+            page=new lib_doc_size()
+            oLoadCont=new lib_obj('divLoadCont')
+            oLoad=new lib_obj('divLoad1','divLoadCont')
+            oLoad2=new lib_obj('divLoad2','divLoadCont.document.divLoad1')
+            oLoadText=new lib_obj('divLoadText','divLoadCont.document.divLoad1')
+            oLoad.moveIt(page.x50-loaderWidth/2,page.y50-20)
+            oLoadText.moveIt(loaderWidth/2 - oLoadText.w/2,10)
+            oLoad.clipTo(0,loaderWidth,40,0,1)
+            oLoad2.per = loaderWidth/numImages
+        }
+        function loadIt(ok){
+            currentImg++
+            if(oLoad2) oLoad2.clipTo(0,oLoad2.per*currentImg,40,0,1)
+            if(!ok){
+                oLoadCont.css.visibility='hidden'
+                oLoadCont=null; oLoad1=null; oLoad2=null;
+            }
+        }
+        function loadIt_display(ok){
+            currentImg++
+            if(oLoad2) oLoad2.clipTo(0,oLoad2.per*currentImg,40,0,1)
+            if(currentImg<=numImages) setTimeout("loadIt_display(1)",200)
+            else{
+                oLoadCont.css.visibility='hidden'
+            }
+        }
+    </script>
+    <!--<div id="divLoadCont">
+       <div id="divLoad1">
+           <div id="divLoad2"></div><br>
+           <div id="loadimg" style="background: white#fbfbfb; text-align: center; padding-top:10%"  ><img src="1.gif" width="40%"> </div>
+           <div id="divLoadText" >LOADING...</div>
+       </div>
+   </div>
+   <script>
+       startLoading()
+       //onload=loadIt; //- LEAVE THIS LINE WHILE TESTING. UNCOMMENT WHEN READY
+       loadIt_display(1) //LEAVE THIS LINE WHILE TESTING. DELETE WHEN READY
+   </script>-->
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+   <link rel="stylesheet" href="./css/scroll.css">
+   <title>I AM SU YUQING</title>
+   <!-- Bootstrap -->
+    <link href="./homepage/shouye.css" rel="stylesheet">
+    <style type="text/css">
+        .bg {
+        }
+        img-fluid {
+            -webkit-transition: all;
+            -o-transition: all;
+            transition: all;
+        }
+        img-fluid:hover {
+            -webkit-opacity: 80;
+            opacity: 80;
+        }
+    </style>
+    <link href="./bootstrap-4.3.1.css" rel="stylesheet.css" type="text/css">
+</head>
+<style>.stage {position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 20;pointer-events: none}</style>
+<style>.canvas {position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index:-10;pointer-events: none}</style>
+<body>
+<canvas id="stage1" class="stage"></canvas>
+<canvas id="canvas" class="canvas"></canvas>
+<nav>
+<div id="menu-wrapper" style="scroll-padding-right: inherit">
+
+    <ul class="menu">
+        <img style=" text-align:left; width:6%" src="./image/suyuqingx.gif">
+        <li> <a href="#">Homepage</a> </li>
+        <li> <a href="#">Mode</a> </li>
+        <li> <a href="#">Projects</a> </li>
+    </ul>
+</div>
+    <div id="submenu-wrapper" style="overflow-y:scroll">
+        <ul class="submenu" href="index.html">
+            <li>
+                <a href="index.html">
+                    <img src="image/home.jpg" />
+                    Homepage
+                </a>
+            </li>
+        </ul>
+        <ul class="submenu" href="index.html">
+            <li>
+                <a href="index.html">
+                    <img src="image/home.jpg" />
+                    Homepage
+                </a>
+            </li>
+        </ul>
+        <ul class="submenu">
+            <li>
+                <a href="work.html">
+                    <img src="image/General.png"/>
+                    View in general mode
+                </a>
+            </li>
+            <li>
+                <a href="Mario-style-page.html">
+                    <img src="image/game.png" />
+                    View in game mode
+                </a>
+            </li>
+        </ul>
+        <ul class="submenu">
+            <li>
+                <a href="Botta.html">
+                    <img src="image/packhero.png" />
+                    Pack Hero(2d platform)
+                </a>
+            </li>
+            <li>
+                <a href="CA.html">
+                    <img src="image/CA/0.png" />
+                    Seamingly Hopeless(2d Narrative)
+                </a>
+            </li>
+            <li>
+                <a href="fs.html">
+                    <img src="image/FS.png" />
+                    Farming Survivor(2d Roguelite)
+                </a>
+            </li>
+            <li>
+                <a href="rebug.html">
+                    <img src="image/REBUG.png" />
+                    Rebug(2d 休闲)
+                </a>
+            </li>
+
+            <li>
+                <a href="flow.html">
+                    <img src="image/flow.png" />
+                    Flow(Wearable Device & APP)
+                </a>
+            </li>
+            <li>
+                <a href="inverse.html">
+                    <img src="image/inverse.png" />
+                    Inverse(Multimedia exhibition)
+                </a>
+            </li>
+
+            <li>
+                <a href="BreakTheBox.html">
+                    <img src="image/project1.png" />
+                    Break The Box(Game)
+                </a>
+            </li>
+            <li>
+                <a href="dollhouse.html">
+                    <img src="image/dollhouse.png" />
+                    Dollhouse(2D puzzle Game)
+                </a>
+            </li>
+            <li>
+                <a href="VR.html">
+                    <img src="image/haunted.png" />
+                    Haunted House(VR Game)
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<section>
+
+    <div class="container img-fix" style="width:100vw; height: 32vw; padding-top:100px; background-image: url(./image/inew.jpg);
+      background-size:100% 100%">
+        <div class="container">
+            <div class="row">
+                <div class="col-16">
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-16 text-center"> </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-16 text-center">
+                <h1 style="margin: 2%">MY PORTFOLIO</h1>
+                <p>Enjoy it !</p>
+            </div>
+        </div>
+        <div class="row">
+            <div style="padding-right: 3%" class=" col-md-8 col-sm-8 col-lg-8 col-16 text-center" >
+                <a href="work.html">
+                <img class="img-fluid" src="./image/General.png" alt="" >
+                    <div style="background-color:black; padding: 3%; opacity: 70%" >
+                <h4 style="background-color: black">GENERAL MODE</h4></a>
+                <h6 style="background-color: black; color: white">There are three parts for my works: some hardware and software interaction design projects and several UX/UI app design, also some game design projects. </h6>
+                     </div>
+            </div>
+            <div style="padding-left: 3%" class="col-md-8 col-sm-8 col-lg-8 col-16 text-center mt-md-0 mt-2">
+                <a href="Mario-style-page.html">
+                <img class="img-fluid" src="./image/game.png" alt="GAME MODE">
+                    <div style="background-color:black; padding: 3%; opacity: 70%" >
+                <h4 style="background-color: black">GAME MODE</h4></a>
+                <h6 style="background-color: black; color: white">Collect the magic power needed to enter the castle by browsing my projects, and finally get the treasure. (The projects are just parts of the left general mode)</h6>
+            </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<hr>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-16 text-center">
+               <p style="text-align: center"> <img src="./image/suyuqing.gif" alt="" width="80%" ></p>
+                <h1>WHAT I WANT</h1>
+
+                <p>I want to be a designer. I hope that my designs can benefit individuals, society, and the world. Through my designs, I hope to garner attention for important issues, solve problems, or just bring more joy to life. </p>
+
+            </div>
+        </div>
+    </div>
+</section>
+<hr>
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-16">
+                <h3 class="text-center">WHO I AM</h3>
+                <p>My name is Su Yuqing. I like playing guitar, singing, drawing, doing crafts, and all kinds of new and interesting things</p>
+            </div>
+            <div class="col-md-4 col-16">
+                <h3 class="text-center">GET IN TOUCH</h3>
+                <address class="text-center">
+                    <strong>E-mail:</strong><br>
+                    suyuqingrainbow@outlook.com<br>
+                    <strong><abbr title="Phone">Phone:</abbr></strong>
+                    <br>+86 13063626611<br>
+                </address>
+            </div>
+            <div class="col-md-4 col-16">
+                <p class="text-center"><img class="img-fluid" src="./image/mine.jpg" alt="" width="100%"></p><br>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<footer class="text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-16">
+                <p>WISH YOU HAVE A GOOD LIFE</p>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+<script src="./chroma.min.js"></script>
+<script src="./dat.gui.min.js"></script>
+<script type="text/javascript" src="./lava.js"></script>
+<script type="text/javascript" src="./jquery.js"></script>
+<script type="text/javascript" src="./canvas.js"></script>
+    <script src="jquery-1.7.1.min.js"></script>
+    <script src="nav.js"></script>
+<script src="jquery-3.3.1.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="popper.min.js"></script>
+<script src="bootstrap-4.3.1.js"></script>
+<script>
+    'use strict';
+
+    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+    var settings = {
+        amplitudeX: 150,
+        amplitudeY: 40,
+        lines: 40,
+        startColor: '#366787',
+        endColor: '#abc8cc'
+    };
+
+    var c = document.getElementById("canvas");
+    var ctx = c.getContext("2d");
+    var winW = window.innerWidth;
+    var winH = window.innerHeight;
+    var Paths = [];
+    var color = [];
+    var mouseY = 0;
+    var mouseDown = false;
+    var time = 0;
+    var curves = undefined;
+    var velocity = undefined;
+
+    var Path = function () {
+        function Path(y, color) {
+            _classCallCheck(this, Path);
+
+            this.y = y;
+            this.color = color;
+            this.root = [];
+            this.create();
+            this.draw();
+        }
+
+        Path.prototype.create = function create() {
+            var rootX = 0;
+            var rootY = this.y;
+
+            this.root = [{ x: rootX, y: rootY }];
+
+            while (rootX < winW) {
+                var casual = Math.random() > 0.5 ? 1 : -1;
+                var x = parseInt(settings.amplitudeX / 2 + Math.random() * settings.amplitudeX / 2);
+                var y = parseInt(rootY + casual * (settings.amplitudeY / 2 + Math.random() * settings.amplitudeY / 2));
+                rootX += x;
+                var delay = Math.random() * 100;
+                this.root.push({ x: rootX, y: y, height: rootY, casual: casual, delay: delay });
+            }
+        };
+
+        Path.prototype.draw = function draw() {
+            ctx.beginPath();
+            ctx.moveTo(0, winH);
+
+            ctx.lineTo(this.root[0].x, this.root[0].y);
+
+            for (var i = 1; i < this.root.length - 1; i++) {
+
+                var x = this.root[i].x;
+                var y = this.root[i].y;
+                var nextX = this.root[i + 1].x;
+                var nextY = this.root[i + 1].y;
+
+                var xMid = (x + nextX) / 2;
+                var yMid = (y + nextY) / 2;
+                var cpX1 = (xMid + x) / 2;
+                var cpY1 = (yMid + y) / 2;
+                var cpX2 = (xMid + nextX) / 2;
+                var cpY2 = (yMid + nextY) / 2;
+
+                ctx.quadraticCurveTo(cpX1, y, xMid, yMid);
+                ctx.quadraticCurveTo(cpX2, nextY, nextX, nextY);
+            }
+
+            var lastPoint = this.root.reverse()[0];
+            this.root.reverse();
+            ctx.lineTo(lastPoint.x, lastPoint.y);
+            ctx.lineTo(winW, winH);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+            ctx.closePath();
+        };
+
+        return Path;
+    }();
+
+    /* INIT */
+
+    var path = undefined;
+    function init() {
+        c.width = winW;
+        c.height = winH;
+        Paths = [];
+
+        color = chroma.scale([settings.startColor, settings.endColor]).mode('lch').colors(settings.lines);
+
+        document.body.style = 'background: ' + settings.startColor;
+
+        for (var i = 0; i < settings.lines; i++) {
+            Paths.push(new Path(winH / settings.lines * i, color[i]));
+            settings.startY = winH / settings.lines * i;
+        }
+    }
+
+    /* WIN RESIZE */
+    window.addEventListener('resize', function () {
+        winW = window.innerWidth;
+        winH = window.innerHeight;
+        c.width = winW;
+        c.height = winH;
+        init();
+    });
+    window.dispatchEvent(new Event("resize"));
+
+    /* RENDER */
+    function render() {
+        c.width = winW;
+        c.height = winH;
+
+        curves = mouseDown ? 2 : 4;
+        velocity = mouseDown ? 6 : 0.8;
+
+        time += mouseDown ? 0.1 : 0.05;
+
+        Paths.forEach(function (path, i) {
+            path.root.forEach(function (r, j) {
+                if (j % curves == 1) {
+                    var move = Math.sin(time + r.delay) * velocity * r.casual;
+                    r.y -= move / 2 - move;
+                }
+                if (j + 1 % curves == 0) {
+                    var move = Math.sin(time + r.delay) * velocity * r.casual;
+                    r.x += move / 2 - move / 10;
+                }
+            });
+
+            path.draw();
+        });
+
+        requestAnimationFrame(render);
+    }
+    render();
+
+    /* MOUSEDOWN */
+    'mousedown touchstart'.split(' ').forEach(function (e) {
+        document.addEventListener(e, function () {
+            mouseDown = true;
+        });
+    });
+
+    /* MOUSEUP */
+    'mouseup mouseleave touchend'.split(' ').forEach(function (e) {
+        document.addEventListener(e, function () {
+            mouseDown = false;
+        });
+    });
+
+    /* MOUSEMOVE */
+    'mousemove touchmove'.split(' ').forEach(function (e) {
+        document.addEventListener(e, function (e) {
+            mouseY = e.clientY || e.touches[0].clientY;
+        });
+    });
+
+    /* DATA GUI */
+    var gui = function datgui() {
+        var gui = new dat.GUI();
+        // dat.GUI.toggleHide();
+        gui.closed = true;
+        gui.add(settings, "amplitudeX", 40, 200).step(20).onChange(function (newValue) {
+            init();
+        });
+        gui.add(settings, "amplitudeY", 0, 100).step(1).onChange(function (newValue) {
+            init();
+        });
+        gui.add(settings, "lines", 5, 50).step(1).onChange(function (newValue) {
+            init();
+        });
+        gui.addColor(settings, "startColor").onChange(function (newValue) {
+
+            init();
+            document.querySelector('h1').innerHTML = 'or whatever you want';
+        });
+        gui.addColor(settings, "endColor").onChange(function (newValue) {
+            init();
+            document.querySelector('h1').innerHTML = 'or whatever you want';
+        });
+
+        return gui;
+    }();
+</script>
+
+
+</body>
+</html>
